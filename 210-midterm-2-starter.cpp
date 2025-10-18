@@ -184,8 +184,9 @@ public:
             cout << "List is empty." << endl;
             return;
         }
+        cout << "    Current Line:" << endl;
         while (current) {
-            cout << current->data << " ";
+            cout << "        " << current->data << endl;
             current = current->next;
         }
         cout << endl;
@@ -209,10 +210,34 @@ int main() {
     // cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
     ifstream file("names.txt");
     string name;
+    DoublyLinkedList line;
 
     for (int i = 0; i < 20; i++) {
+        if (i == 0) {
+            // firt in line
+            getline(file, name);
+            line.push_back(name);
+            // second in line
+            getline(file, name);
+            line.push_back(name);
+            // third in line
+            getline(file, name);
+            line.push_back(name);
+            // fourth in line
+            getline(file, name);
+            line.push_back(name);
+            // fifth in line
+            getline(file, name);
+            line.push_back(name);
+            continue;
+        }
+        if ((int)(rand() % 10) < 1) {
+            getline(file, name);
+            name = name + " (VIP)";
+            line.push_front(name);
+        }
         getline(file, name);
+        line.print();
     }
-    
     return 0;
 }
