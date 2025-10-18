@@ -84,13 +84,20 @@ public:
             return;
         }
     
-        if (pos == 1) {
-            pop_front();
-            return;
-        }
     
         Node* temp = head;
     
+        if (pos == 1) {
+            if (head->next) {
+                head = head->next;
+                head->prev = nullptr;
+            }
+            else
+                head = tail = nullptr;
+            delete temp;
+            return;
+        }
+
         for (int i = 1; i < pos; i++){
             if (!temp) {
                 cout << "Position doesn't exist." << endl;
@@ -112,12 +119,12 @@ public:
         Node* tempPrev = temp->prev;
         tempPrev->next = temp->next;
         temp->next->prev = tempPrev;
-        cout << "    " << temp->data << "at position" << pos << "leaves the line" << endl;
+        cout << "    " << temp->data << " at position " << pos << " leaves the line" << endl;
         delete temp;
     }
 
     void push_back(string v) {
-        cout << "    " << v << "joins the line" << endl;
+        cout << "    " << v << " joins the line" << endl;
         Node* newNode = new Node(v);
         if (!tail)
             head = tail = newNode;
@@ -129,7 +136,7 @@ public:
     }
     
     void push_front(string v) {
-        cout << "    " << v << "joins the front of the line" << endl;
+        cout << "    " << v << " joins the front of the line" << endl;
         Node* newNode = new Node(v);
         if (!head)
             head = tail = newNode;
@@ -172,7 +179,7 @@ public:
         else
             head = tail = nullptr;
         
-        cout << "    " << temp->data << "leaves the back of the line" << endl;
+        cout << "    " << temp->data << " leaves the back of the line" << endl;
         delete temp;
     }
 
@@ -219,7 +226,7 @@ int main() {
     int lstSize = 0; // keep track of line size so that iteration for the 10% chance of leaving can be kept in main with rest of core functionality
 
     for (int i = 0; i < 20; i++) {
-        cout << "Time(" << i << ") minutes: " << endl;
+        cout << "Time(" << (i+1) << ") minutes: " << endl;
         if (i == 0) {
             // firt in line
             getline(file, name);
@@ -238,6 +245,11 @@ int main() {
             line.push_back(name);
             lstSize = 5;
             continue;
+        }
+        // 40% chance that first client gets their coffee
+        if ((int)(rand() % 10) < 4) {
+            line.pop_front();
+            lstSize -= 1;
         }
         // 10% chance of VIP client
         if ((int)(rand() % 10) < 1) {
@@ -265,11 +277,6 @@ int main() {
                 lstSize -= 1;
             } 
         }  
-        // 40% chance that first client gets their coffee
-        if ((int)(rand() % 10) < 4) {
-            line.pop_front();
-            lstSize -= 1;
-        }
         // print current line
         line.print();
     }
