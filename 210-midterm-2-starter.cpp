@@ -141,7 +141,7 @@ public:
     }
     
     void pop_front() {
-
+        cout << "    " << head->data << " has recieved their coffee" << endl;
         if (!head) {
             cout << "List is empty." << endl;
             return;
@@ -219,6 +219,7 @@ int main() {
     int lstSize = 0; // keep track of line size so that iteration for the 10% chance of leaving can be kept in main with rest of core functionality
 
     for (int i = 0; i < 20; i++) {
+        cout << "Time(" << i << ") minutes: " << endl;
         if (i == 0) {
             // firt in line
             getline(file, name);
@@ -238,12 +239,38 @@ int main() {
             lstSize = 5;
             continue;
         }
+        // 10% chance of VIP client
         if ((int)(rand() % 10) < 1) {
             getline(file, name);
             name = name + " (VIP)";
             line.push_front(name);
+            lstSize += 1;
         }
-        getline(file, name);
+        // 60% chance of adding new customer to back of line
+        if ((int)(rand() % 10) < 6) {
+            getline(file, name);
+            line.push_back(name);
+            lstSize += 1;
+        } 
+        // 20% chance that last in line leaves
+        if ((int)(rand() % 10) < 2) {
+            line.pop_back();
+            lstSize -= 1;
+        } 
+        // iterate through list
+        for(int e = 1; e <= lstSize; e++) {
+            // 10% chance that each client in line leaves
+            if ((int)(rand() % 10) < 1) {
+                line.delete_pos(e);
+                lstSize -= 1;
+            } 
+        }  
+        // 40% chance that first client gets their coffee
+        if ((int)(rand() % 10) < 4) {
+            line.pop_front();
+            lstSize -= 1;
+        }
+        // print current line
         line.print();
     }
     return 0;
