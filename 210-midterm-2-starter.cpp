@@ -112,7 +112,12 @@ public:
         }
     
         if (!temp->next) {
-            pop_back();
+            if (tail->prev) {
+                tail = tail->prev;
+                tail->next = nullptr;
+            }
+            else
+                head = tail = nullptr;
             return;
         }
     
@@ -244,8 +249,13 @@ int main() {
             getline(file, name);
             line.push_back(name);
             lstSize = 5;
+            // print current line
+            line.print();
             continue;
         }
+
+        /* All chances are independently generated on a scale of 0 - 9 as every 10% is represented by an increase in the random number of 1*/
+
         // 40% chance that first client gets their coffee
         if ((int)(rand() % 10) < 4) {
             line.pop_front();
