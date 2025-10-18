@@ -107,7 +107,7 @@ public:
                 temp = temp->next;
         }
         if (!temp) {
-            cout << "Position doesn't exist." << endl;
+            cout << "Position doesn't exist. " << endl;
             return;
         }
     
