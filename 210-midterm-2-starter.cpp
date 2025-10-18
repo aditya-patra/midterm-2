@@ -112,10 +112,12 @@ public:
         Node* tempPrev = temp->prev;
         tempPrev->next = temp->next;
         temp->next->prev = tempPrev;
+        cout << "    " << temp->data << "at position" << pos << "leaves the line" << endl;
         delete temp;
     }
 
     void push_back(string v) {
+        cout << "    " << v << "joins the line" << endl;
         Node* newNode = new Node(v);
         if (!tail)
             head = tail = newNode;
@@ -127,6 +129,7 @@ public:
     }
     
     void push_front(string v) {
+        cout << "    " << v << "joins the front of the line" << endl;
         Node* newNode = new Node(v);
         if (!head)
             head = tail = newNode;
@@ -168,6 +171,8 @@ public:
         }
         else
             head = tail = nullptr;
+        
+        cout << "    " << temp->data << "leaves the back of the line" << endl;
         delete temp;
     }
 
@@ -211,6 +216,7 @@ int main() {
     ifstream file("names.txt");
     string name;
     DoublyLinkedList line;
+    int lstSize = 0; // keep track of line size so that iteration for the 10% chance of leaving can be kept in main with rest of core functionality
 
     for (int i = 0; i < 20; i++) {
         if (i == 0) {
@@ -229,6 +235,7 @@ int main() {
             // fifth in line
             getline(file, name);
             line.push_back(name);
+            lstSize = 5;
             continue;
         }
         if ((int)(rand() % 10) < 1) {
